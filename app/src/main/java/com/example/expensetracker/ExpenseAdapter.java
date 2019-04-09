@@ -17,7 +17,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
     private List<Expense> expenses = new ArrayList<>();
     private DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
 
-    public void addExpense(Expense expense) {
+    void addExpense(Expense expense) {
         expenses.add(expense);
         notifyDataSetChanged();
     }
@@ -33,7 +33,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         expenseViewHolder.description.setText(expenses.get(i).getDescription());
         expenseViewHolder.category.setText(expenses.get(i).getCategory());
         expenseViewHolder.date.setText(dateFormat.format(expenses.get(i).getDate()));
-        expenseViewHolder.amount.setText(expenses.get(i).getAmount().toString());
+        expenseViewHolder.amount.setText("$ " + String.valueOf(expenses.get(i).getAmount()));
     }
 
     @Override
