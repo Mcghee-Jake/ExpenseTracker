@@ -1,16 +1,22 @@
 package com.example.expensetracker;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Expense {
 
-    String description, category;
-    Date date;
-    double amount;
+    protected static DecimalFormat decimalFormat = new DecimalFormat("#.00");
+    protected static DateFormat dateFormatJson = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
+    protected static DateFormat dateFormatDisplay = new SimpleDateFormat("MMMM dd, yyyy");
+
+    private String description, category;
+    private Date date;
+    private double amount;
+
 
     public Expense() {};
 
@@ -25,11 +31,7 @@ public class Expense {
         this.description = jsonObject.getString("description");
         this.category = jsonObject.getString("category");
         this.amount = jsonObject.getDouble("amount");
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
-        this.date = simpleDateFormat.parse(jsonObject.getString("created_at"));
-
-        // You can also try "yyyy-MM-dd'T'HH:mm:ss.sssZZZZ"
+        this.date = dateFormatJson.parse(jsonObject.getString("created_at"));
     }
 
     public String getDescription() {

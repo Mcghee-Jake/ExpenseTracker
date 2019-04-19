@@ -1,46 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditExpenseActivity"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    tools:context=".EditExpenseActivity">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="30dp">
+        android:layout_marginStart="32dp"
+        android:text="Amount:"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_dollar_sign"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$"
-            android:textSize="32sp"
-            android:textColor="@android:color/black"/>
+    <TextView
+        android:id="@+id/tv_dollar_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="$"
+        android:textColor="@android:color/black"
+        android:textSize="32sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/et_amount"
+        app:layout_constraintStart_toEndOf="@+id/tv_amount" />
 
-        <EditText
-            android:id="@+id/et_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:hint="0.00"/>
+    <EditText
+        android:id="@+id/et_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="0.00"
+        android:inputType="numberDecimal"
+        android:textSize="32sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_dollar_sign"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Description:"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/tv_amount"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dollar_sign" />
 
     <EditText
         android:id="@+id/et_description"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter a description"
+        android:textSize="16sp"
+        android:inputType="textCapWords"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_description"
+        app:layout_constraintStart_toStartOf="@+id/tv_dollar_sign" />
+
+    <TextView
+        android:id="@+id/tv_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter a description"/>
+        android:layout_marginTop="24dp"
+        android:text="Category:"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="@+id/tv_description"
+        app:layout_constraintTop_toBottomOf="@+id/tv_description" />
 
     <EditText
         android:id="@+id/et_category"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:hint="Enter a category"/>
+        android:hint="Enter a category"
+        android:textSize="16sp"
+        android:inputType="textCapWords"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_category"
+        app:layout_constraintStart_toStartOf="@+id/et_description" />
+" />
 
 
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

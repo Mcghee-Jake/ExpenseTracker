@@ -7,15 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder> {
 
     private List<Expense> expenses = new ArrayList<>();
-    private DateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+
 
     void addExpense(Expense expense) {
         expenses.add(expense);
@@ -32,8 +30,8 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
     public void onBindViewHolder(@NonNull ExpenseViewHolder expenseViewHolder, int i) {
         expenseViewHolder.description.setText(expenses.get(i).getDescription());
         expenseViewHolder.category.setText(expenses.get(i).getCategory());
-        expenseViewHolder.date.setText(dateFormat.format(expenses.get(i).getDate()));
-        expenseViewHolder.amount.setText("$ " + String.valueOf(expenses.get(i).getAmount()));
+        expenseViewHolder.date.setText(Expense.dateFormatDisplay.format(expenses.get(i).getDate()));
+        expenseViewHolder.amount.setText("$" + Expense.decimalFormat.format(expenses.get(i).getAmount()));
     }
 
     @Override
