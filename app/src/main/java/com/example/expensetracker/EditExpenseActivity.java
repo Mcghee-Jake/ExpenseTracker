@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -18,7 +19,8 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditExpenseActivity extends AppCompatActivity {
 
@@ -35,7 +37,7 @@ public class EditExpenseActivity extends AppCompatActivity {
 
     private void saveExpense () {
         // Build the URL
-        String url = "https://cst-438-project-desktop.herokuapp.com/expenses";
+        String url = "https://cst-438-project-desktop.herokuapp.com/api";
         Log.i("API_REQUEST", url);
 
         EditText etAmount = findViewById(R.id.et_amount);
@@ -50,20 +52,23 @@ public class EditExpenseActivity extends AppCompatActivity {
         // If something was entered into all of the fields
         if (amount > 0 && !description.isEmpty() && !category.isEmpty()) {
 
+
             // Convert field entries into a JSON object
-            JSONObject expenseJson = new JSONObject();
+            JSONObject expenseData = new JSONObject();
+            JSONObject expenseObject = new JSONObject();
             try {
-                expenseJson.put("user_id", user_id);
-                expenseJson.put("amount", amount);
-                expenseJson.put("description", description);
-                expenseJson.put("category", category);
-                expenseJson.put("created_at", Expense.dateFormatJson.parse(Calendar.getInstance().getTime().toString()));
+                expenseData.put("user_id", user_id);
+                expenseData.put("amount", amount);
+                expenseData.put("description", description);
+                expenseData.put("category", category);
+                expenseObject.put("expense", expenseData);
+                // expenseJson.put("created_at", Expense.dateFormatJson.parse(Calendar.getInstance().getTime().toString()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, null, new Response.Listener<JSONObject>() {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, expenseObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Toast.makeText(EditExpenseActivity.this, "POST Successful", Toast.LENGTH_SHORT).show();
@@ -75,7 +80,14 @@ public class EditExpenseActivity extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     Toast.makeText(EditExpenseActivity.this, "POST Unsuccessful", Toast.LENGTH_SHORT).show();
                 }
-            });
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Content-Type", "application/json");
+                    return params;
+                }
+            };
 
             // Make the API request
             RequestQueue queue = Volley.newRequestQueue(this);
