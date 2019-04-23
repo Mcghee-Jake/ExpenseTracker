@@ -76,7 +76,7 @@ public class EditExpenseActivity extends AppCompatActivity {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, expenseObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Toast.makeText(EditExpenseActivity.this, "POST Successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditExpenseActivity.this, "Expense Saved", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(EditExpenseActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
