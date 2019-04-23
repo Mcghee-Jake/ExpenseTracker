@@ -35,6 +35,10 @@ public class EditExpenseActivity extends AppCompatActivity {
         user_id = getIntent().getIntExtra("USER_ID", 0);
     }
 
+    /*
+        Save the expense in the rails database
+        This is called when the user presses the SAVE menu button
+     */
     private void saveExpense () {
         // Build the URL
         String url = "https://cst-438-project-desktop.herokuapp.com/expenses";
@@ -44,14 +48,14 @@ public class EditExpenseActivity extends AppCompatActivity {
         EditText etDescription = findViewById(R.id.et_description);
         EditText etCategory = findViewById(R.id.et_category);
 
+
         // Get values from the EditTexts
-        double amount = Double.parseDouble(etAmount.getText().toString());
+        String amount = etAmount.getText().toString().trim();
         String description = etDescription.getText().toString().trim();
         String category = etCategory.getText().toString().trim();
 
         // If something was entered into all of the fields
-        if (amount > 0 && !description.isEmpty() && !category.isEmpty()) {
-
+        if (!amount.isEmpty() && Double.parseDouble(amount) > 0 && !description.isEmpty() && !category.isEmpty()) {
 
             // Convert field entries into a JSON object
             JSONObject expenseData = new JSONObject();
@@ -68,7 +72,7 @@ public class EditExpenseActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-
+            // Build the jsonObjectRequest
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, expenseObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -95,8 +99,7 @@ public class EditExpenseActivity extends AppCompatActivity {
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(jsonObjectRequest);
 
-
-        }
+        } else Toast.makeText(this, "Invalid input", Toast.LENGTH_SHORT).show();
     }
 
 
