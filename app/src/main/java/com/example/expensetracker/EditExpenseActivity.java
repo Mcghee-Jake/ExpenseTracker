@@ -37,7 +37,7 @@ public class EditExpenseActivity extends AppCompatActivity {
 
     private void saveExpense () {
         // Build the URL
-        String url = "https://cst-438-project-desktop.herokuapp.com/api";
+        String url = "https://cst-438-project-desktop.herokuapp.com/expenses";
         Log.i("API_REQUEST", url);
 
         EditText etAmount = findViewById(R.id.et_amount);
@@ -57,18 +57,19 @@ public class EditExpenseActivity extends AppCompatActivity {
             JSONObject expenseData = new JSONObject();
             JSONObject expenseObject = new JSONObject();
             try {
-                expenseData.put("user_id", user_id);
-                expenseData.put("amount", amount);
-                expenseData.put("description", description);
+                expenseData.put("user_id", String.valueOf(user_id));
+                expenseData.put("amount", String.valueOf(amount));
                 expenseData.put("category", category);
+                expenseData.put("description", description);
                 expenseObject.put("expense", expenseData);
                 // expenseJson.put("created_at", Expense.dateFormatJson.parse(Calendar.getInstance().getTime().toString()));
+                Log.i("API_REQUEST", expenseObject.toString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, expenseObject, new Response.Listener<JSONObject>() {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, expenseObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     Toast.makeText(EditExpenseActivity.this, "POST Successful", Toast.LENGTH_SHORT).show();
@@ -85,6 +86,7 @@ public class EditExpenseActivity extends AppCompatActivity {
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("Content-Type", "application/json");
+                    params.put("Accept", "application/json");
                     return params;
                 }
             };
