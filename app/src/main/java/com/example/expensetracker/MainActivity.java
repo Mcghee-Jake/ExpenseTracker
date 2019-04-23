@@ -46,18 +46,28 @@ public class MainActivity extends AppCompatActivity {
 
     private void authorizeUser() {
 
-        // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder()
-                        .build());
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        // Create and launch sign-in intent
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
+
+        if (user != null) {
+            // User is already signed in
+            getExpenseData(user.getEmail());
+        } else {
+            // User is not signed in
+
+            // Choose authentication providers
+            List<AuthUI.IdpConfig> providers = Arrays.asList(
+                    new AuthUI.IdpConfig.EmailBuilder()
+                            .build());
+
+            // Create and launch sign-in intent
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(providers)
+                            .build(),
+                    RC_SIGN_IN);
+        }
     }
 
     @Override
